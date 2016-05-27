@@ -804,10 +804,10 @@ static long audio_decode_frame(PlayerObject* player, PlayerInStream *is, long le
 		/* NOTE: the audio packet can contain several frames */
 		while (pkt_temp->size > 0) {
 			if (!is->frame) {
-				if (!(is->frame = avcodec_alloc_frame()))
+				if (!(is->frame = av_frame_alloc()))
 					return AVERROR(ENOMEM);
 			} else
-				avcodec_get_frame_defaults(is->frame);
+				av_frame_unref(is->frame);
 						
 			if (flush_complete)
 				break;
